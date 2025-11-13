@@ -1,8 +1,44 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import { motion as Motion } from 'framer-motion'
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub, FaTwitter } from 'react-icons/fa'
+import emailjs from 'emailjs-com'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaLinkedin, FaGithub } from 'react-icons/fa'
 
 const Contact = () => {
+  const form = useRef()
+
+  const sendEmail = (e) => {
+    e.preventDefault()
+
+    emailjs
+      .sendForm(
+        'service_91ec5e5', // <-- replace this
+        'template_et7x12z', // <-- replace this
+        form.current,
+        'b1bny8wLO5UJxFOXQ' // <-- replace this
+      )
+      .then(
+        (result) => {
+          console.log(result.text)
+          toast.success('✅ Message sent successfully!', {
+            position: 'top-center',
+            autoClose: 3000,
+            theme: 'dark',
+          })
+          e.target.reset()
+        },
+        (error) => {
+          console.log(error.text)
+          toast.error('❌ Failed to send message. Try again.', {
+            position: 'top-center',
+            autoClose: 3000,
+            theme: 'dark',
+          })
+        }
+      )
+  }
+
   return (
     <Motion.div
       initial={{ opacity: 0, y: 50 }}
@@ -28,7 +64,7 @@ const Contact = () => {
             transition={{ duration: 0.6 }}
             viewport={{ once: false }}
           >
-            <form className='space-y-6'>
+            <form ref={form} onSubmit={sendEmail} className='space-y-6'>
               <div>
                 <label htmlFor='name' className='block text-gray-300 mb-2'>Your Name</label>
                 <input 
@@ -36,6 +72,7 @@ const Contact = () => {
                   name='name'
                   type='text'
                   placeholder='Enter your name'
+                  required
                   className='w-full bg-dark-300 border border-gray-600 rounded-lg px-4 py-3 outline-none focus:border-blue transition'
                 />
               </div>
@@ -47,6 +84,7 @@ const Contact = () => {
                   name='email'
                   type='email'
                   placeholder='your.email@example.com'
+                  required
                   className='w-full bg-dark-300 border border-gray-600 rounded-lg px-4 py-3 outline-none focus:border-blue transition'
                 />
               </div>
@@ -58,6 +96,7 @@ const Contact = () => {
                   name='message'
                   rows='5'
                   placeholder='Tell me about your project...'
+                  required
                   className='w-full bg-dark-300 border border-gray-600 rounded-lg px-4 py-3 outline-none focus:border-blue transition resize-none'
                 />
               </div>
@@ -69,6 +108,7 @@ const Contact = () => {
                 Send Message
               </button>
             </form>
+            <ToastContainer />
           </Motion.div>
 
           {/* Contact Information */}
@@ -111,7 +151,7 @@ const Contact = () => {
 
             <div className='pt-6'>
               <h3 className='text-xl font-semibold mb-4'>Follow Me</h3>
-              <div className='flex gap-4 '>
+              <div className='flex gap-4'>
                 <a 
                   href='https://www.linkedin.com/in/avirup-sarkar' 
                   target='_blank' 
@@ -130,12 +170,6 @@ const Contact = () => {
                 >
                   <FaGithub className='text-xl' />
                 </a>
-                {/* <a 
-                  href='#' 
-                  className='w-12 h-12 bg-dark-300 rounded-full flex items-center justify-center text-blue hover:bg-blue hover:text-white transition duration-300'
-                >
-                  <FaTwitter className='text-xl' />
-                </a> */}
               </div>
             </div>
           </Motion.div>

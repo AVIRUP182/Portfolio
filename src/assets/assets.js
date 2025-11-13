@@ -67,10 +67,10 @@ export const skills = [
     tags: ['Node.js', 'Express',]
   },
   {
-    title: 'Tools & Technologies',
+    title: 'Frameworks & Tools',
     icon: FaTools,
     description: 'Essential tools and technologies I use in my development workflow.',
-    tags: ['Git & GitHub', 'Figma', 'VS Code']
+    tags: ['NextJS', 'Vite','Git & GitHub', 'Figma', 'VS Code']
   }
 ];
 
